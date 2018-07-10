@@ -10,7 +10,6 @@ import com.abhi.androidexercise.utilities.CustomApplication;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  *  Author: Abhiraj Khare
@@ -19,10 +18,10 @@ import java.util.Arrays;
 public class DataManager {
 
     private static DataManager instance = new DataManager();
-    private ArrayList<FactsElement> mainList;
+    private FactsElement factsElement;
 
     private DataManager(){
-        mainList = new ArrayList<FactsElement>();
+        factsElement = new FactsElement();
         Log.e("Singleton Check", "I am called.");
         EventBusSingleton.instance().register(this);
         FactsRequest FactsRequest = new FactsRequest();
@@ -34,17 +33,17 @@ public class DataManager {
         return instance;
     }
 
-    public synchronized ArrayList<FactsElement> getMainList(){
-        return mainList;
+    public synchronized ArrayList<FactsRowsElement> getMainList(){
+        return factsElement.getRows();
     }
 
 
 
     @Subscribe
-    public void serverResponse(FactsElement[] data){
+    public void serverResponse(FactsElement data){
 
-        mainList.clear();
-        mainList.addAll(Arrays.asList(data));
+        factsElement.getRows().clear();
+        factsElement.getRows().addAll(data.getRows());
         EventBusSingleton.instance().postEvent(new DataChangedEvent());
     }
 

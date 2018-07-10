@@ -2,6 +2,8 @@ package com.abhi.androidexercise.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +12,12 @@ import android.view.ViewGroup;
 import com.abhi.androidexercise.R;
 import com.abhi.androidexercise.events.DataChangedEvent;
 import com.abhi.androidexercise.events.EventBusSingleton;
+import com.abhi.androidexercise.model.DataManager;
+import com.abhi.androidexercise.model.FactsRowsElement;
+import com.abhi.androidexercise.utilities.FactsAdapter;
 import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
 
 
 public class FactsFragment extends Fragment {
@@ -32,14 +39,14 @@ public class FactsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_facts, container, false);
-//        RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.list_recycler_view);
-//        mRecyclerView.setHasFixedSize(true);
-//        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//
-//        mDataset = DataManager.instance().getMainList();
-//        mAdapter = new Adapter(mDataset, this.getActivity());
-//        mRecyclerView.setAdapter(mAdapter);
+        RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.list_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        ArrayList<FactsRowsElement> mDataset = DataManager.instance().getMainList();
+        FactsAdapter mAdapter = new FactsAdapter(mDataset, this.getActivity());
+        mRecyclerView.setAdapter(mAdapter);
         return rootView;
     }
 
