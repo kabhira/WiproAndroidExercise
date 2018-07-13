@@ -13,6 +13,10 @@ public class FactsElement {
     private String title;
     private ArrayList<FactsRowsElement> rows;
 
+    FactsElement() {
+        rows = new ArrayList<>();
+    }
+
     public String getTitle() {
         return title;
     }
