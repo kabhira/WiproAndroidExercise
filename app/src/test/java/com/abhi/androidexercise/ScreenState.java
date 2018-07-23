@@ -1,11 +1,12 @@
 package com.abhi.androidexercise;
 
-import org.junit.Before;
+import com.abhi.androidexercise.model.FactsElement;
+import com.abhi.androidexercise.view.FactsFragment;
+import com.google.gson.Gson;
+
 import org.junit.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * Created by abhi on 7/13/18.
@@ -13,15 +14,17 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 public class ScreenState {
 
-
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
     @Test
-    public void assertThatTestTrue() throws Exception {
+    public void listHasDataTest() throws Exception {
 
-        assertThat(8, is( equalTo(4 +4) ) );
+        FactsFragment factsFragment = new FactsFragment();
+
+
+        String json = "{\"title\":\"About Canada\",\"rows\":[{\"title\":\"Beavers\",\"description\":\"Beavers are second only to humans in their ability to manipulate and change their environment. They can measure up to 1.3 metres long. A group of beavers is called a colony\",\"imageHref\":\"http://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/American_Beaver.jpg/220px-American_Beaver.jpg\"}]}";
+        Gson gson = new Gson();
+        FactsElement factsEle = gson.fromJson(json, FactsElement.class);
+
+        assertTrue(factsFragment.setDataToList(factsEle.getRows()).getAdapter().getItemCount()>0);
+        //assertThat(8, is( equalTo(4 +4) ) );
     }
 }

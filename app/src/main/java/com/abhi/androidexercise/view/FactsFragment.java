@@ -21,6 +21,9 @@ import java.util.ArrayList;
 
 
 public class FactsFragment extends Fragment {
+
+    private RecyclerView mRecyclerView;
+
     public FactsFragment() {
         // Required empty public constructor
     }
@@ -39,14 +42,9 @@ public class FactsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_facts, container, false);
-        RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.list_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.list_recycler_view);
+        setDataToList(DataManager.instance().getMainList());
 
-        ArrayList<FactsRowsElement> mDataset = DataManager.instance().getMainList();
-        FactsAdapter mAdapter = new FactsAdapter(mDataset, this.getActivity());
-        mRecyclerView.setAdapter(mAdapter);
         return rootView;
     }
 
@@ -66,5 +64,15 @@ public class FactsFragment extends Fragment {
     public void dataChangedEvent(DataChangedEvent event){
         //mAdapter.notifyDataSetChanged();
         Log.e(">>>", "DataChangedEvent");
+    }
+
+    public RecyclerView setDataToList(ArrayList<FactsRowsElement> mDataset) {
+        mRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        FactsAdapter mAdapter = new FactsAdapter(mDataset, this.getActivity());
+        mRecyclerView.setAdapter(mAdapter);
+        return mRecyclerView;
     }
 }
